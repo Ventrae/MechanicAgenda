@@ -4,6 +4,7 @@
       <router-link to="/">Login</router-link>
       <router-link to="/agenda">Agenda</router-link>
       <router-link to="/admin">Admin</router-link>
+      <router-link to="/profile">Profile</router-link>
     </div>
     <router-view/>
   </div>

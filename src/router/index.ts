@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Index from '@/views/Index.vue'
 import Admin from '@/views/Admin.vue'
 import Agenda from "@/views/Agenda.vue";
+import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: Admin
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile
   }
 ];
 
