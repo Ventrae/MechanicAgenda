@@ -1,0 +1,10 @@
+$theme-colors: (
+        "primary": red,
+        "danger": #ff4136
+);
+
+
+
+
+// Import musi być na dole dokumentu
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
