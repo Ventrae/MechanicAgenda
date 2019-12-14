@@ -1,5 +1,5 @@
 import Car from "@/models/Car";
-import Client from "@/models/Clients";
+import Client from "@/models/Client";
 import Service from "@/models/Service";
 
 export default class Transaction {
