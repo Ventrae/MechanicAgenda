@@ -4,6 +4,7 @@ import Index from '@/views/Index.vue'
 import Admin from '@/views/Admin.vue'
 import Agenda from "@/views/Agenda.vue";
 import Profile from "@/views/Profile.vue";
+import Navigation from "@/components/general/Navigation.vue";
 
 Vue.use(VueRouter);
 
@@ -11,25 +12,37 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    component: Index
+    components: {
+      default: Index
+    }
   },
   {
     path: '/agenda',
     name: 'agenda',
-    component: Agenda
+    components: {
+      navigation: Navigation,
+      default: Agenda
+    }
   },
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    components: {
+      navigation: Navigation,
+      default: Admin
+    }
   },
   {
     path: '/profile',
     name: 'profile',
-    component: Profile
+    components: {
+      navigation: Navigation,
+      default: Profile
+    }
   }
 ];
 
+// @ts-ignore
 const router = new VueRouter({
   routes
 });

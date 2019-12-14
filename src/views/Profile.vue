@@ -1,7 +1,6 @@
 <template>
     <div>
-        profile
-        <button class="btn btn-primary">dawdawd</button>
+        profile page
     </div>
 </template>
 
