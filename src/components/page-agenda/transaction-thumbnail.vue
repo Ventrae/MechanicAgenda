@@ -1,5 +1,5 @@
 <template>
-    <div class="transaction-thumbnail card mx-auto">
+    <div class="transaction-thumbnail card ml-2 mr-4">
         <h5 class="card-header">
             {{ transaction.name}}
         </h5>
