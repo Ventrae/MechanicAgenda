@@ -9,6 +9,7 @@ Projekt "Mechanic agenda", jest oprogramowaniem typu CRM dla warsztatu mechanicz
  - Tomasz Jasiński
 
 ### Komendy:
+`npm install` - instaluje potrzebne biblioteki (dependencje zawarte w package.json)
 `npm run dev` - serwuje aplikację na porcie 8080 w trybie development\
 `npm run build` - buduje aplikacje w trybie produkcyjnym do folderu `dist/` 
 
