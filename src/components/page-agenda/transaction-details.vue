@@ -66,4 +66,10 @@
     ul {
         text-align: left;
     }
+    .modal {
+        background: rgba(100, 100, 100, 0.5);
+    }
+    .close {
+        outline: none;
+    }
 </style>
