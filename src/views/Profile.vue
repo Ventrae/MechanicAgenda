@@ -1,24 +1,24 @@
 <template>
     <div>
-        Test ściągania jednej transakcji:<br/>
-        [ {{ tran.name }} - {{ tran.date }} ]
+        Test ściągania jednego auta:<br/>
+        {{ car ? car.model : '' }}
     </div>
 </template>
 
 <script>
     import {firestoreRequests} from "@/mixins/firestoreRequests";
+    import {firestore} from "@/main";
 
     export default {
         name: "Profile",
         data(){
             return {
-                tran: undefined
+                car: 1
             }
         },
         mixins: [ firestoreRequests ],
-        created() {
-            console.log(this.getOneTransaction('WRMtYIamcPWv6pu1AIEr'));
-            this.tran = this.getOneTransaction('WRMtYIamcPWv6pu1AIEr');
+        mounted() {
+            this.car = this.getOneCar('IdkZcEBGD5y6WeU8cGRY');
         }
     }
 </script>
