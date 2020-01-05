@@ -36,7 +36,6 @@
             />
         </div>
 
-
     </div>
 </template>
 
@@ -46,15 +45,15 @@
 
     export default {
         name: 'Agenda',
+        mixins: [ firestoreRequests ],
         components: {QueueView},
-        data() {
-            return {
-                transactions: []
+        computed: {
+            transactions(){
+                return this.$store.state.transactions;
             }
         },
-        mixins: [firestoreRequests],
         mounted() {
-            this.transactions = this.getTransactions();
+            this.updateVuexState();
         }
     }
 </script>
