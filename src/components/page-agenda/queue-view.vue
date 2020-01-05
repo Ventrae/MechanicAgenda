@@ -14,7 +14,7 @@
         components: {TransactionThumbnail},
         props: {
             transactions: {
-                type: Array,
+                type: Array | undefined,
                 required: true
             }
         }

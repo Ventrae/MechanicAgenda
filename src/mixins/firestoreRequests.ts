@@ -4,34 +4,72 @@ import Service from "@/models/Service";
 import Client from "@/models/Client";
 import Car from "@/models/Car";
 import {firestore} from "@/main";
+import {arrayTools} from "@/mixins/arrayTools";
 
 export const firestoreRequests = {
+    mixins: [ arrayTools ],
     methods: {
-        getTransactions():Array<Transaction> {
-            let y:Transaction[] = [];
+        getTransactions(): Array<Transaction> {
+            let y: Transaction[] = [];
             firestore.collection("Transactions")
                 .get()
-                .then((transactions)=>{
-                    transactions.forEach((transaction)=>{
+                .then((transactions) => {
+                    transactions.forEach((transaction) => {
+
+                        let services = [];
+                        transaction.data().services.forEach(s => {
+                            firestore.doc(s.path).get().then(service_data => {
+                                let service = new Service(
+                                    service_data.id,
+                                    service_data.data().description,
+                                    service_data.data().price
+                                );
+                                services.push(service)
+                            });
+                        });
+
+                        /*
+                        let client = null;
+                        firestore.doc(transaction.data().client.path).get().then(client_data => {
+                            console.log(client_data);
+                            client = new Client(
+                                client_data.id,
+                                client_data.data().name,
+                                client_data.data().surname,
+                                client_data.data().email,
+                                client_data.data().phone,
+                            );
+                        });
+                        */
+
+                        let client = new Client(
+                            'mock-client-id',
+                            'mock-client-name',
+                            'mock-client-surname',
+                            'mock-client-email',
+                            'mock-client-phone'
+                        );
+
                         let x = new Transaction(
                             transaction.id,
                             transaction.data().name,
                             transaction.data().date,
                             transaction.data().comment,
-                            [
-                                new Service('mockid',"To tylko mock serwisów", 1200),
-                                new Service('mockid',"Ogarnąć relacje w firestore", 100)
-                            ],
-                            new Client('mockid',"Mock", "Klienta", "mock@gmail.com", "123456789"),
-                            new Car('mockid',"Mock", "Car", "GS12345"),
+                            services,
+                            client,
+                            new Car('mockid', "Mock", "Car", "GS12345"),
                             transaction.data().token,
                             new User('mockid', 'mockname', 'mockpass', false, []),
                             transaction.data().total
                         );
+
                         y.push(x);
+
                     });
-                    y.sort((a,b)=>(a.name > b.name) ? 1 : -1);
+
+                    y.sort((a, b) => (a.name > b.name) ? 1 : -1);
                     return y;
+
                 });
             return y;
         },
@@ -113,69 +151,19 @@ export const firestoreRequests = {
             return y;
         },
         getOneTransaction(id: string){
-            let x = null;
-            firestore.collection("Transactions").doc(id)
-                .get()
-                .then((transaction)=>{
-                    return new Promise((resolve, reject) =>{
-                        if(transaction.exists){
-                            x = new Transaction(
-                                transaction.id,
-                                transaction.data().name,
-                                transaction.data().date,
-                                transaction.data().comment,
-                                [
-                                    new Service('mockid',"To tylko mock serwisów", 1200),
-                                    new Service('mockid',"Ogarnąć relacje w firestore", 100)
-                                ],
-                                new Client('mockid',"Mock", "Klienta", "mock@gmail.com", "123456789"),
-                                new Car('mockid',"Mock", "Car", "GS12345"),
-                                transaction.data().token,
-                                new User('mockid', 'mockname', 'mockpass', false, []),
-                                transaction.data().total
-                            );
-                            resolve(x);
-                        }
-                        else {
-                            console.log('Document with this ID doesn\'t exist');
-                            x = null;
-                            reject(x);
-                        }
-                    });
-                })
-                .then(data => {
-                        console.log(data);
-                        return data;
-                    }
-                );
+            return this.getItemById(this.$store.state.transactions, id);
         },
         getOneUser(id: string){
-
+            return this.getItemById(this.$store.state.users, id);
         },
         getOneCar(id: string){
-            const docRef = firestore.collection("Cars").doc(id);
-            var vm = this; //creating the reference to the Vue VM.
-            let result = new Car('','', '', '');
-            docRef.get().then(
-                function(doc){
-                    if(doc.exists){
-                        console.log(doc.data());
-                        let x = new Car(doc.id, doc.data().brand, doc.data().model, doc.data().plates);
-                        console.log(x); // x jest ok
-                        result = x;
-                    } else {
-                        console.log(`Doc data is undefined`);
-                    }
-                    return result;
-                }).catch(function(err){
-                console.log(`Oops: ${err.message}`);
-            });
+            return this.getItemById(this.$store.state.cars, id);
         },
         getOneClient(id: string){
-
+            return this.getItemById(this.$store.state.clients, id);
         },
         getOneService(id: string){
-
+            return this.getItemById(this.$store.state.allServices, id);
         }
     }
 };

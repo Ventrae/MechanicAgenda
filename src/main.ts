@@ -18,11 +18,14 @@ Vue.use(VueFirestore);
 var firebaseApp = Firebase.initializeApp(firestoreConfig);
 export const firestore = firebaseApp.firestore();
 
-
+// Vuex setup
+import { store } from './store/store';
 
 // Vue mounting
 Vue.config.productionTip = false;
+
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app');
