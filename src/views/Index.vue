@@ -14,8 +14,11 @@
   </div>
 </template>
 <script>
+  import {firestoreRequests} from "@/mixins/firestoreRequests";
+
   export default {
     name: "Login",
+    mixins: [ firestoreRequests ],
     methods: {
       login(){
         alert('Loguję!');

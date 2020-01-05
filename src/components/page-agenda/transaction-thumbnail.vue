@@ -5,7 +5,7 @@
         </h5>
         <article class="card-body">
             <div class="card-text mb-3">
-                <div>Data: {{ transaction.date }}r.</div>
+                <div>Data: {{ transaction.date }}</div>
                 <div v-if="transaction.name">Komentarz: "{{ transaction.comment }}"</div>
             </div>
             <a href="#" class="btn btn-red" @click="details = !details">Szczegóły</a>
