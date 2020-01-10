@@ -59,7 +59,7 @@ export const firestoreRequests = {
                             client,
                             new Car('mockid', "Mock", "Car", "GS12345"),
                             transaction.data().token,
-                            new User('mockid', 'mockname', 'mockpass', false, []),
+                            new User('mockid', 'mockname', 'mockpass', 'email', 'password', false, []),
                             transaction.data().total
                         );
 
@@ -82,9 +82,11 @@ export const firestoreRequests = {
                         let x = new User(
                             user.id,
                             user.data().name,
+                            user.data().surname,
+                            user.data().email,
                             user.data().password,
                             user.data().isOwner,
-                            user.data().transactions
+                            []
                         );
                         y.push(x);
                     });
