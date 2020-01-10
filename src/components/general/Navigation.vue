@@ -31,7 +31,7 @@
                     <a class="nav-link">Admin</a>
                 </router-link>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" @click="logout()">Wyloguj</a>
+                    <a href="#" class="nav-link" @click="logOut()">Wyloguj</a>
                 </li>
             </ul>
         </div>
@@ -39,12 +39,18 @@
 </template>
 
 <script>
+    import firebase from "firebase";
+
     export default {
         name: "Navigation",
         methods: {
-            logout(){
-                alert('Wylogouje!');
-                this.$router.push('/');
+            logOut: function () {
+                firebase.auth().signOut().then(()=>
+                {
+                    localStorage.clear();
+                    this.$router.replace('/');
+                });
+
             }
         }
     }
