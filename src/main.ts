@@ -22,6 +22,15 @@ export const firestore = firebaseApp.firestore();
 // Vuex setup
 import { store } from './store/store';
 
+//fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCrown,faWrench } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faCrown,faWrench)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 // Vue mounting
 Vue.config.productionTip = false;
 
