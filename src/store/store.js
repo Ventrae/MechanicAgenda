@@ -9,7 +9,13 @@ export const store = new Vuex.Store({
         cars: [],
         users: [],
         allServices: [],
-        clients: []
+        clients: [],
+        currentUser: {
+            name: "Mockname",
+            surname: "Mocksurname",
+            email: "mock@mock.com",
+            isOwner: true
+        }
     },
     getters: {
         getTransactions: state => {
