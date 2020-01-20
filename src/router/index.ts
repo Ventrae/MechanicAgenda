@@ -6,6 +6,7 @@ import Agenda from "@/views/Agenda.vue";
 import Profile from "@/views/Profile.vue";
 import Navigation from "@/components/general/Navigation.vue";
 import firebase from "firebase";
+import CreateTransaction from "@/views/CreateTransaction.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,17 @@ const routes = [
     components: {
       navigation: Navigation,
       default: Agenda
+    },
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/agenda/new',
+    name: 'new',
+    components: {
+      navigation: Navigation,
+      default: CreateTransaction
     },
     meta: {
       requiresAuth: true
