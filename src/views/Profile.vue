@@ -1,14 +1,12 @@
 <template>
-    <div>
-
-        Test ściągania jednego auta:<br/>
-        {{ car ? car.brand + ' ' + car.model : ' '}}
-
+    <div class="container">
+            <user-data></user-data>
     </div>
 </template>
 
 <script>
     import {firestoreRequests} from "@/mixins/firestoreRequests";
+    import userData from "@/components/page-profile/user-data";
 
     export default {
         name: "Profile",
@@ -17,6 +15,9 @@
             car(){
                 return this.getOneCar('IdkZcEBGD5y6WeU8cGRY');
             }
+        },
+        components: {
+            userData
         },
         mounted() {
             this.updateVuexState();

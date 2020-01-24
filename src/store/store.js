@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
         cars: [],
         users: [],
         allServices: [],
-        clients: []
+        clients: [],
+        currentUser: null
     },
     getters: {
         getTransactions: state => {

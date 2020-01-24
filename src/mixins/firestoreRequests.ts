@@ -69,7 +69,7 @@ export const firestoreRequests = {
                             new Client(client().id, client().name, client().surname, client().email, client().phone),
                             car,
                             transaction.data().token,
-                            user,
+                            new User('mockid', 'mockname', 'mockpass', 'email', 'password', false, []),
                             transaction.data().total
                         );
                         y.push(x);
@@ -92,9 +92,11 @@ export const firestoreRequests = {
                         let x = new User(
                             user.id,
                             user.data().name,
+                            user.data().surname,
+                            user.data().email,
                             user.data().password,
                             user.data().isOwner,
-                            user.data().transactions
+                            []
                         );
                         y.push(x);
                     });
