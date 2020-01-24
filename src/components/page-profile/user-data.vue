@@ -1,21 +1,22 @@
 <template>
+<div>
   <div class="card">
     <div>
       <div class="imgSize">
         <font-awesome-icon :icon="currentUserImage" />
       </div>
     </div>
-    <h2 class="mt-2">{{ currentUser.name }} {{ currentUser.surname }}</h2>
+    <h2 class="mt-2">{{ cu.name }} {{ cu.surname }}</h2>
     <div class="my-2">
       <span
         class="badge"
-        :class="{'badge-warning': currentUser.isOwner}"
-        v-if="currentUser.isOwner"
+        :class="{'badge-warning': cu.isOwner}"
+        v-if="cu.isOwner"
       >Właściciel zakładu</span>
       <span
         class="badge"
-        :class="{'badge-primary':!currentUser.isOwner}"
-        v-if="!currentUser.isOwner"
+        :class="{'badge-primary':!cu.isOwner}"
+        v-if="!cu.isOwner"
       >Pracownik zakładu</span>
     </div>
 
@@ -89,8 +90,25 @@
         </div>
       </div>
     </div>
-    <queue-view :transactions="currentUser.transactions" />
   </div>
+<div class="col-10 mx-auto">
+ <div v-for="transaction in transactions" class="list-group">
+      <a
+        href="#"
+        class="list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{transaction.name}}</h5>
+          <small>Data dodania transakcji: {{transaction.date}}</small>
+        </div>
+        <p
+          class="mb-1"
+        >{{transaction.comment}}</p>
+      </a>
+    </div>
+    </div>
+</div>
+
 </template>
 
 
@@ -107,21 +125,28 @@ export default {
   components: {
     queueView
   },
+  data() {
+    return {
+      transactions: []
+    };
+  },
   computed: {
     currentUserImage() {
       if (this.$store.state.currentUser.isOwner === true) return "crown";
       else return "wrench";
     },
-    currentUser() {
+    cu() {
+      console.log(this.$store.state.currentUser);
       return this.$store.state.currentUser;
     },
     currentUserTransactions() {
-      this.$store.state.transactions;
+      return this.transactions;
     }
   },
   mounted() {
     firestore
       .collection("Transactions")
+      .where("user", "in", [localStorage.uid])
       .get()
       .then(transactions => {
         transactions.forEach(doc => {
@@ -142,7 +167,8 @@ export default {
             },
             token: doc.data().token,
             total: doc.data().total,
-            services: []
+            services: [],
+            user: doc.data().user
           });
         });
       });

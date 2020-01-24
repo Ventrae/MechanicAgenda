@@ -41,12 +41,10 @@
 
 <script>
     import QueueView from "@/components/page-agenda/queue-view";
-    import {firestoreRequests} from "@/mixins/firestoreRequests";
     import { firestore } from "@/main";
 
     export default {
         name: 'Agenda',
-        mixins: [ firestoreRequests ],
         components: {QueueView},
         data(){
             return {
