@@ -24,6 +24,7 @@ import { store } from './store/store';
 // Vue mounting
 Vue.config.productionTip = false;
 
+// @ts-ignore
 new Vue({
   router,
   store,
