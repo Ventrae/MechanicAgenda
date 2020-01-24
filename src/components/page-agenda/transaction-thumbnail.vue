@@ -34,7 +34,7 @@
         },
         props: {
             transaction: {
-                type: Transaction,
+                type: Transaction | Object,
                 required: true
             }
         },

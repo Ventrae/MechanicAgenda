@@ -11,11 +11,13 @@ export const arrayTools = {
            return result;
         },
         updateVuexState(){
-            this.$store.state.transactions = this.getTransactions();
-            this.$store.state.users = this.getUsers();
-            this.$store.state.cars = this.getCars();
-            this.$store.state.clients = this.getClients();
-            this.$store.state.allServices = this.getServices();
+            this.getTransactions().then(transactions => {
+                this.$store.state.transactions = transactions;
+            });
+            // this.$store.state.users = this.getUsers();
+            // this.$store.state.cars = this.getCars();
+            // this.$store.state.clients = this.getClients();
+            // this.$store.state.allServices = this.getServices();
         }
     }
 };

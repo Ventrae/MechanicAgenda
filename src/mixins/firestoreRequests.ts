@@ -9,46 +9,56 @@ import {arrayTools} from "@/mixins/arrayTools";
 export const firestoreRequests = {
     mixins: [ arrayTools ],
     methods: {
-        getTransactions(): Array<Transaction> {
+        getTransactions: async function () {
             let y: Transaction[] = [];
-            firestore.collection("Transactions")
+            return await firestore.collection("Transactions")
                 .get()
                 .then((transactions) => {
                     transactions.forEach((transaction) => {
 
+                        // let services:any = async () => {
+                        //     return await firestore.collection('Services')
+                        //         .doc(transaction.data().services).get()
+                        //         .then(services=>{
+                        //             return services;
+                        //         })
+                        // };
+                        // services = services().then(s => {
+                        //     services = s;
+                        // });
+
                         let services = [];
-                        transaction.data().services.forEach(s => {
-                            firestore.doc(s.path).get().then(service_data => {
-                                let service = new Service(
-                                    service_data.id,
-                                    service_data.data().description,
-                                    service_data.data().price
-                                );
-                                services.push(service)
-                            });
-                        });
+                        let car = new Car("","","","");
+                        let user = new User("","","",false,[]);
 
-                        /*
-                        let client = null;
-                        firestore.doc(transaction.data().client.path).get().then(client_data => {
-                            console.log(client_data);
-                            client = new Client(
-                                client_data.id,
-                                client_data.data().name,
-                                client_data.data().surname,
-                                client_data.data().email,
-                                client_data.data().phone,
-                            );
-                        });
-                        */
+                        let client = async () => {
+                            return await firestore.collection('Clients')
+                                .doc(transaction.data().client).get()
+                                .then(client => {
+                                    client.data();
+                                })
+                        };
 
-                        let client = new Client(
-                            'mock-client-id',
-                            'mock-client-name',
-                            'mock-client-surname',
-                            'mock-client-email',
-                            'mock-client-phone'
-                        );
+                        // let car:any = async () => {
+                        //     return await firestore.collection('Cars')
+                        //         .doc(transaction.data().car).get()
+                        //         .then(car => {
+                        //             return car;
+                        //         })
+                        // };
+                        // car = car().then(c => {
+                        //     car = c;
+                        // });
+                        // let user:any = async () => {
+                        //     return await firestore.collection('Users')
+                        //         .doc(transaction.data().user).get()
+                        //         .then(user => {
+                        //             return user;
+                        //         })
+                        // };
+                        // user = user().then(u => {
+                        //     user = u;
+                        // });
 
                         let x = new Transaction(
                             transaction.id,
@@ -56,22 +66,22 @@ export const firestoreRequests = {
                             transaction.data().date,
                             transaction.data().comment,
                             services,
-                            client,
-                            new Car('mockid', "Mock", "Car", "GS12345"),
+                            new Client(client().id, client().name, client().surname, client().email, client().phone),
+                            car,
                             transaction.data().token,
                             new User('mockid', 'mockname', 'mockpass', 'email', 'password', false, []),
                             transaction.data().total
                         );
-
                         y.push(x);
 
-                    });
+                        // Promise.all([client]).then(value => {
+                        //
+                        // });
 
+                    });
                     y.sort((a, b) => (a.name > b.name) ? 1 : -1);
                     return y;
-
                 });
-            return y;
         },
         getUsers():Array<User> {
             let y:User[] = [];
