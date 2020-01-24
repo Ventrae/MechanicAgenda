@@ -128,14 +128,14 @@
                 window.setTimeout(() => {
                     this.enteredClient = {
                         'name': this.form.clientName,
-                        'surName': this.form.clientSurname,
+                        'surname': this.form.clientSurname,
                         'email': this.form.clientEmail,
                         'phone': this.form.clientPhone
                     }
                     this.clientSaved = true
                     this.$emit('first', this.enteredClient)
                     this.sending = false
-                    // this.clearForm()
+                    this.clearForm()
                 }, 1500)
             },
             validateClient () {

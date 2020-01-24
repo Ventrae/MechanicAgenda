@@ -4,7 +4,7 @@
 
             <div class="modal-content text-center">
                 <div class="modal-header">
-                    <h5 class="modal-title">New Transaction</h5>
+                    <h5 class="modal-title text-center">New Transaction</h5>
                     <md-button class="md-icon-button" data-dismiss="modal" @click="close()">
                         <md-icon>close</md-icon>
                     </md-button>

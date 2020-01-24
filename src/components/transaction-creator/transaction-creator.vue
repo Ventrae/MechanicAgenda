@@ -4,15 +4,15 @@
         <md-steppers autofocus md-alternative md-dynamic-height :md-active-step.sync="active" md-linear>
 
             <md-step id="first" md-label="Client Details" :md-done.sync="first">
-                <first-step @first="logEvent($event), setDone('first', 'second')"></first-step>
+                <first-step @first="addClient($event), setDone('first', 'second')"></first-step>
             </md-step>
 
             <md-step id="second" md-label="Car Services Details" :md-done.sync="second">
-                <second-step @second="logEvent($event), setDone('second', 'third')" @back="goBack($event)"></second-step>
+                <second-step @second="addCarServices($event), setDone('second', 'third')" @back="goBack($event)"></second-step>
             </md-step>
 
             <md-step id="third" md-label="Summary" :md-done.sync="third">
-                <third-step @summary="logEvent($event), setDone('third')" @back="goBack($event)"></third-step>
+                <third-step @summary="addSummary($event), setDone('third')" @back="goBack($event)"></third-step>
             </md-step>
 
         </md-steppers>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-
+    import {firestore} from "@/main.ts"
     import FirstStep from "@/components/transaction-creator/first-step";
     import SecondStep from "@/components/transaction-creator/second-step";
     import ThirdStep from "@/components/transaction-creator/third-step";
@@ -33,7 +33,18 @@
             first: true,
             second: true,
             third: true,
-            secondStepError: null
+            secondStepError: null,
+
+            transaction: {
+                client: null,
+                car: null,
+                services: [],
+                name: null,
+                comment: null,
+                date: null,
+                token: null,
+                total: null
+            }
         }),
         methods: {
             setDone (id, index) {
@@ -48,8 +59,26 @@
             goBack($event) {
                 this.active = $event;
             },
-            logEvent($event) {
-                console.log($event)
+            addClient($event) {
+                this.transaction.client = $event
+                console.log(this.transaction)
+            },
+            addCarServices($event) {
+                this.transaction.car = $event.car
+                this.transaction.services = $event.services
+                console.log(this.transaction)
+            },
+            addSummary($event) {
+                this.transaction.name = $event.name
+                this.transaction.comment = $event.comment
+                this.transaction.date = $event.date
+                this.transaction.total = $event.total
+                this.transaction.token = $event.token
+                this.sendToFirestore(this.transaction)
+                console.log(this.transaction)
+            },
+            sendToFirestore(data) {
+                firestore.collection("Transactions").add(data);
             }
         }
     }
