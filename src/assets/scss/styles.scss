@@ -13,14 +13,6 @@ button:not(btn):focus {
   outline: none;
   outline-offset: unset;
 }
-.queue-view-container {
-  margin: auto;
-  padding: 4rem;
-  //background-color: lighten(#626262, 55);
-  background-color: lighten(red, 46);
-  position: relative;
-  border-radius: 25px;
-}
 .fade-enter {
   opacity: 0;
 }
