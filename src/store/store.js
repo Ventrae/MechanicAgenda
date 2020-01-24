@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
         surname: "Mocksurname",
         email: "mock@mock.com",
         password: "lol123",
-        transactions: []
+        transactions: [],
+        isOwner: false
         }
     },
     getters: {

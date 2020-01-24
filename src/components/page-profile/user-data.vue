@@ -43,10 +43,11 @@
             <form>
               <p align="left">Wpisz nowy e-mail:</p>
               <input class="form-control" type="email" placeholder="Adres e-mail" />
-              <br /><p align="left">Potwierdź nowy e-mail:</p>
-              
+              <br />
+              <p align="left">Potwierdź nowy e-mail:</p>
+
               <div class="form-group">
-              <input class="form-control" type="email" placeholder="Adres e-mail" />
+                <input class="form-control" type="email" placeholder="Adres e-mail" />
               </div>
               <input class="btn btn-red" type="submit" value="Akceptuj" />
             </form>
@@ -75,9 +76,11 @@
             <form>
               <p align="left">Wpisz stare hasło:</p>
               <input class="form-control" type="password" placeholder="Stare hasło" />
-              <br /><p align="left">Wpisz nowe hasło:</p>
+              <br />
+              <p align="left">Wpisz nowe hasło:</p>
               <input class="form-control" type="password" placeholder="Nowe hasło" />
-              <br /><p align="left">Potwierdź nowe hasło:</p>
+              <br />
+              <p align="left">Potwierdź nowe hasło:</p>
               <input class="form-control" type="password" placeholder="Nowe hasło" />
               <br />
               <input class="btn btn-red" type="submit" value="Akceptuj" />
@@ -86,9 +89,7 @@
         </div>
       </div>
     </div>
-    <queue-view
-                :transactions="currentUser.transactions"
-            />
+    <queue-view :transactions="currentUser.transactions" />
   </div>
 </template>
 
@@ -98,6 +99,7 @@
 
 <script>
 import queueView from "@/components/page-agenda/queue-view";
+import { firestore } from "../../main";
 
 export default {
   name: "user-data",
@@ -116,6 +118,34 @@ export default {
     currentUserTransactions() {
       this.$store.state.transactions;
     }
+  },
+  mounted() {
+    firestore
+      .collection("Transactions")
+      .get()
+      .then(transactions => {
+        transactions.forEach(doc => {
+          this.transactions.push({
+            name: doc.data().name,
+            date: doc.data().date,
+            comment: doc.data().comment,
+            client: {
+              name: doc.data().client.name,
+              surname: doc.data().client.surname,
+              email: doc.data().client.name,
+              phone: doc.data().client.phone
+            },
+            car: {
+              brand: doc.data().car.brand,
+              model: doc.data().car.model,
+              plates: doc.data().car.plates
+            },
+            token: doc.data().token,
+            total: doc.data().total,
+            services: []
+          });
+        });
+      });
   }
 };
 </script>
