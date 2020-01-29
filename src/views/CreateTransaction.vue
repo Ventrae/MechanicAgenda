@@ -10,7 +10,10 @@
                     </md-button>
                 </div>
                 <div class="modal-body text-center">
-                    <transaction-creator></transaction-creator>
+                    <transaction-creator v-if="creatingState" @done="onDone()"></transaction-creator>
+                    <md-card-content v-if="!creatingState">
+                        <h1>Transaction added!</h1>
+                    </md-card-content>
                 </div>
             </div>
 
@@ -35,9 +38,16 @@
         name: "CreateTransaction",
         components: {TransactionCreator},
         data: () => ({
-            active: true
+            active: true,
+            creatingState: true
         }),
         methods: {
+            onDone() {
+                this.creatingState = false
+                setTimeout(() => {
+                    this.close()
+                }, 1500)
+            },
             close() {
                 this.$emit('close', false);
             }

@@ -55,18 +55,21 @@
                 if (index) {
                     this.active = index
                 }
+                else {
+                    this.sendTransaction(this.transaction)
+                }
             },
             goBack($event) {
                 this.active = $event;
             },
             addClient($event) {
                 this.transaction.client = $event
-                console.log(this.transaction)
+                console.log('Client added', this.transaction)
             },
             addCarServices($event) {
                 this.transaction.car = $event.car
                 this.transaction.services = $event.services
-                console.log(this.transaction)
+                console.log('Car Services added', this.transaction)
             },
             addSummary($event) {
                 this.transaction.name = $event.name
@@ -74,11 +77,11 @@
                 this.transaction.date = $event.date
                 this.transaction.total = $event.total
                 this.transaction.token = $event.token
-                this.sendToFirestore(this.transaction)
-                console.log(this.transaction)
+                console.log('Summary added', this.transaction)
             },
-            sendToFirestore(data) {
-                firestore.collection("Transactions").add(data);
+            sendTransaction(data) {
+                firestore.collection("Transactions").add(data)
+                this.$emit('done', )
             }
         }
     }
@@ -88,10 +91,10 @@
 <style lang="scss" scoped>
     @import '~vue-material/dist/vue-material.min.css';
 
-    .md-steppers {
+/*    .md-steppers {
         border: solid 2px;
         border-color: crimson;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
-    }
+    }*/
 </style>

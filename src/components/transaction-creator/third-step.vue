@@ -4,7 +4,7 @@
             <md-card class="md-layout-item">
 
                 <md-card-header>
-                    <div class="md-title">Summary</div>
+                    <div class="md-title"><h2>Summary</h2></div>
                 </md-card-header>
 
                 <md-card-content>
@@ -161,7 +161,7 @@
                     this.$emit('summary', this.enteredTransaction)
                     this.sending = false
                     this.clearForm()
-                }, 1500)
+                }, 1000)
             },
             validateTransaction() {
                 this.$v.$touch()
@@ -178,6 +178,17 @@
 </script>
 
 <style scoped>
+    .md-card {
+        border: solid 2px;
+        border-color: indianred;
+        border-radius: 10px;
+    }
+
+    .md-card-header {
+        color: floralwhite;
+        background-color: indianred;
+    }
+
     label {
         padding-left: 10px;
     }

@@ -4,7 +4,7 @@
             <md-card class="md-layout-item">
 
                 <md-card-header>
-                    <div class="md-title">Car & Services</div>
+                    <div class="md-title"><h2>Car & Services</h2></div>
                 </md-card-header>
 
                 <md-card-content>
@@ -42,25 +42,22 @@
 
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
-                            <label for="services">Services</label>
+                            <label for="services" @click="getAvailableServices()">Services</label>
                             <select multiple v-model="form.services"
                                     class="form-control" name="services" id="services">
-                                <option value="wymiana-rozrzadu">Wymiana rozrządu</option>
-                                <option value="wymiana-opon">Wymiana opon</option>
-                                <option value="wymiana-oleju">Wymiana oleju</option>
-                                <option value="wymiana-filtrow">Wymiana filtrów</option>
-                                <option value="naprawa-hamulcow">Naprawa hamulców</option>
-                                <option value="naprawa-zawieszenia">Naprawa zawieszenia</option>
-                                <option value="diagnostyka-komputerowa">Diagnostyka komputerowa</option>
+                                <option v-for="service in availableServices" v-bind:value="service.id">
+                                    {{service.data().description}}
+                                </option>
                             </select>
                             <div>
                                 <br>
                                 Selected:
-                                <md-chips v-model="form.services"></md-chips>
+                                {{form.services}}
+<!--                                <md-chips v-model="form.services"></md-chips>-->
                             </div>
+
                         </div>
                     </div>
-
                 </md-card-content>
 
                 <md-snackbar :md-active.sync="carServicesSaved">Car services {{ enteredCarServices }} was saved with
@@ -89,6 +86,7 @@
         minLength,
         maxLength
     } from 'vuelidate/lib/validators'
+    import {firestore} from "@/main";
 
     export default {
         name: "second-step",
@@ -100,6 +98,7 @@
                 carPlates: null,
                 services: []
             },
+            availableServices: [],
             carServicesSaved: false,
             sending: false,
             enteredCarServices: null
@@ -122,6 +121,14 @@
             }
         },
         methods: {
+            getAvailableServices() {
+                firestore.collection('Services').get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        // console.log(`${doc.id} => ${doc.data().description}`);
+                        this.availableServices.push(doc)
+                    });
+                });
+            },
             getValidationClass(fieldName) {
                 const field = this.$v.form[fieldName]
 
@@ -154,7 +161,7 @@
                     this.$emit('second', this.enteredCarServices)
                     this.sending = false
                     this.clearForm()
-                }, 1500)
+                }, 1000)
             },
             validateCarServices() {
                 this.$v.$touch()
@@ -171,6 +178,17 @@
 </script>
 
 <style scoped>
+    .md-card {
+        border: solid 2px;
+        border-color: indianred;
+        border-radius: 10px;
+    }
+
+    .md-card-header {
+        color: floralwhite;
+        background-color: indianred;
+    }
+
     label {
         padding-left: 10px;
     }
@@ -194,6 +212,7 @@
     .md-chips {
         margin: 0;
         font-weight: bold;
+        color: crimson;
     }
 
     .md-progress-bar {
