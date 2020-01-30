@@ -41,6 +41,7 @@
         methods: {
             closeDetails($event){
                this.details = $event;
+               this.$forceUpdate();
             }
         }
     }

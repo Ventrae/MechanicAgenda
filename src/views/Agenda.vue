@@ -3,7 +3,7 @@
 
         <queue-view
                 :user="{name: 'Kolejka zleceń'}"
-                :transactions="transactions"
+                :transactions="filterTransactions(transactions, { id: null})"
         />
 
         <queue-view
@@ -54,6 +54,9 @@
                 return result;
             }
         },
+        updated(){
+
+        },
         mounted() {
 
             firestore.collection('Users').get()
@@ -86,6 +89,7 @@
 
                         serviceFunction().then(serv => {
                             this.transactions.push({
+                                id: doc.id,
                                 name: doc.data().name,
                                 date: doc.data().date,
                                 comment: doc.data().comment,

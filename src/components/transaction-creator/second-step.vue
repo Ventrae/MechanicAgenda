@@ -46,7 +46,7 @@
                             <select multiple v-model="form.services"
                                     class="form-control" id="services">
                                 <option v-for="service in availableServices" :value="service">
-                                    {{service.description}}
+                                    {{service.description}} - {{ service.price }}
                                 </option>
                             </select>
                             <div>
@@ -126,7 +126,7 @@
                     querySnapshot.forEach((doc) => {
                         // console.log(`${doc.id} => ${doc.data().description}`);
                         this.availableServices.push(
-                            { description: doc.data().description, price: doc.data().price });
+                            { id: doc.id, description: doc.data().description, price: doc.data().price });
                     });
                 });
             },

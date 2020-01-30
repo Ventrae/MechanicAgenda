@@ -5,7 +5,9 @@
             <transaction-thumbnail
                     v-for="transaction in transactions"
                     :transaction="transaction"
+                    v-if="transactions.length > 0"
             />
+            <div class="gray display-4" v-if="transactions.length === 0">Brak zleceń</div>
 
         </div>
     </div>
@@ -13,7 +15,6 @@
 
 <script>
     import TransactionThumbnail from "./transaction-thumbnail";
-    import firebase from "firebase";
 
     export default {
         name: "queue-view",
@@ -33,5 +34,7 @@
 </script>
 
 <style scoped>
-
+    .gray {
+        color: #dddddd;
+    }
 </style>
