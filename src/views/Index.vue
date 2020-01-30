@@ -10,9 +10,6 @@
                            placeholder="Hasło użytkownika"/>
                     <button class="btn btn-red btn-block" type="submit">Zaloguj</button>
                 </div>
-                <!--              <div>-->
-                <!--                <button type="button" @click="logOut" class="btn-block btn-primary">Log Out!</button>-->
-                <!--              </div>-->
             </div>
         </form>
     </div>
@@ -43,6 +40,9 @@
                         localStorage.uid = this.uid;
                         //this.$store.state.currentUser=this.getOneUser(this.uid);
                         console.log(this.$store.state.currentUser);
+                        const ref = firebase.firestore().collection('Users');
+                        ref.doc(this.uid).get().then(data=>
+                        console.log(data));
                         this.$router.push({name: 'agenda'});
                     },
                     (err) => {
