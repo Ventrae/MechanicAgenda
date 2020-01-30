@@ -7,6 +7,7 @@ import Profile from "@/views/Profile.vue";
 import Navigation from "@/components/general/Navigation.vue";
 import firebase from "firebase";
 import CreateTransaction from "@/views/CreateTransaction.vue";
+import {store} from "../store/store";
 
 Vue.use(VueRouter);
 
@@ -50,6 +51,15 @@ const routes = [
     },
     meta: {
       requiresAuth: true
+    },
+    beforeEnter(to: any, from: any, next: { (): void; (arg0: { name: string; }): void; }) {
+      if (store.state.currentUser.isOwner) {
+        next();
+      }
+      else {
+        // @ts-ignore
+        next(false);
+      }
     }
   },
   {
@@ -63,7 +73,7 @@ const routes = [
       requiresAuth: true
     }
   }
-]
+];
 
 // @ts-ignore
 const router = new VueRouter({
