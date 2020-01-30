@@ -18,7 +18,6 @@
     </div>
 </template>
 <script>
-    import {firestoreRequests} from "@/mixins/firestoreRequests";
     import firebase from 'firebase';
 
     export default {
@@ -31,7 +30,6 @@
                 uid: ''
             }
         },
-        mixins: [firestoreRequests],
         methods: {
 
             login() {
@@ -43,7 +41,7 @@
                         this.uid = user.uid;
                         console.log(this.uid);
                         localStorage.uid = this.uid;
-                        this.$store.state.currentUser=this.getOneUser(this.uid);
+                        //this.$store.state.currentUser=this.getOneUser(this.uid);
                         console.log(this.$store.state.currentUser);
                         this.$router.push({name: 'agenda'});
                     },

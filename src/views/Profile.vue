@@ -5,12 +5,10 @@
 </template>
 
 <script>
-    import {firestoreRequests} from "@/mixins/firestoreRequests";
     import userData from "@/components/page-profile/user-data";
 
     export default {
         name: "Profile",
-        mixins: [ firestoreRequests ],
         computed: {
             car(){
                 return this.getOneCar('IdkZcEBGD5y6WeU8cGRY');
