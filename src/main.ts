@@ -22,7 +22,7 @@ export const firestore = firebaseApp.firestore();
 
 
 // Vuex setup
-import { store } from './store/store';
+import {store} from './store/store';
 
 //fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core'
