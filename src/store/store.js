@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
         getUsers: state => {
             return state.users;
         },
-        getAllServices: state => {
+        getServices: state => {
             return state.allServices;
         },
         getClients: state => {

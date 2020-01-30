@@ -6,6 +6,13 @@
             <queue-view
                     :transactions="transactions"
             />
+            <md-button class="md-fab md-fab-bottom-right btn-red" @click="showCreator=!showCreator">
+                <!--fab to open creator-->
+                <md-icon>add</md-icon>
+            </md-button>
+            <transition name="fade"><!--modal with transaction creator-->
+                <create-transaction v-if="showCreator" @close="closeCreator($event)"></create-transaction>
+            </transition>
         </div>
 
         <div class="single-row border-red d-flex flex-column my-4 px-5 text-left">
@@ -41,14 +48,26 @@
 
 <script>
     import QueueView from "@/components/page-agenda/queue-view";
-    import { firestore } from "@/main";
+    import {firestoreRequests} from "@/mixins/firestoreRequests";
+    import CreateTransaction from "@/views/CreateTransaction";
 
     export default {
         name: 'Agenda',
-        components: {QueueView},
-        data(){
+        mixins: [firestoreRequests],
+        components: {CreateTransaction, QueueView},
+        data() {
             return {
-                transactions: []
+                showCreator: false
+            }
+        },
+        methods: {
+            closeCreator($event) {
+                this.showCreator = $event;
+            }
+        },
+        computed: {
+            transactions() {
+                return this.$store.state.transactions;
             }
         },
         mounted() {

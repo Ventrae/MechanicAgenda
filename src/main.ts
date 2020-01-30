@@ -37,7 +37,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 // Vue mounting
 Vue.config.productionTip = false;
 
-let app = '';
+let app = null;
 
 // @ts-ignore
 firebase.auth().onAuthStateChanged(()=>{
