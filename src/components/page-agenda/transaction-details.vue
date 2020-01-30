@@ -30,9 +30,15 @@
                         <li>Cena łącznie: {{ transaction.total }}zł</li>
                     </ul>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex flex-column">
+                    <div class="d-flex w-100">
+                        <a href="#" class="btn btn-red" @click="finishTransaction()">Finalizuj zlecenie</a>
+                        <a href="#" class="ml-2 btn btn-outline-red" @click="cancelTransaction()">Anuluj zlecenie</a>
+                    </div>
+                    <div class="d-flex w-100">
                     <button class="btn btn-red" @click="assignToYourself()" data-dismiss="modal">Przypisz do siebie</button>
-                    <button class="btn btn-outline-red" @click="close()">Zamknij</button>
+                    <button class="ml-2 btn btn-outline-red" @click="close()">Zamknij</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,12 +47,25 @@
 
 <script>
     import Transaction from "../../models/Transaction";
+    import {firestore} from "@/main";
 
     export default {
         name: "transaction-details",
         methods: {
             assignToYourself(){
-                alert('przypisuje zlecenie do Ciebie');
+                let t = this.transaction;
+                t.user = localStorage.uid;
+                firestore.collection('Transactions').doc(this.transaction.id).set(this.transaction);
+                this.$emit('closed', false);
+            },
+            finishTransaction(){
+                alert('Transakcja sfinalizowana!');
+                firestore.collection('Transactions').doc(this.transaction.id).delete();
+                this.$emit('closed', false);
+            },
+            cancelTransaction(){
+                alert('Transakcja odwołana!');
+                firestore.collection('Transactions').doc(this.transaction.id).delete();
                 this.$emit('closed', false);
             },
             close() {
