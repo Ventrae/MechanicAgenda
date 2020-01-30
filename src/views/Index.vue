@@ -10,9 +10,6 @@
                            placeholder="Hasło użytkownika"/>
                     <button class="btn btn-red btn-block" type="submit">Zaloguj</button>
                 </div>
-                <!--              <div>-->
-                <!--                <button type="button" @click="logOut" class="btn-block btn-primary">Log Out!</button>-->
-                <!--              </div>-->
             </div>
         </form>
     </div>
