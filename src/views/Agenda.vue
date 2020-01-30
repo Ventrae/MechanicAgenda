@@ -71,7 +71,34 @@
             }
         },
         mounted() {
-            this.updateVuexState();
+            firestore.collection('Transactions').get()
+                .then(transactions => {
+                    transactions.forEach(doc => {
+
+
+
+
+                       this.transactions.push({
+                           name: doc.data().name,
+                           date: doc.data().date,
+                           comment: doc.data().comment,
+                           client: {
+                               name: doc.data().client.name,
+                               surname: doc.data().client.surname,
+                               email: doc.data().client.name,
+                               phone: doc.data().client.phone
+                           },
+                           car: {
+                               brand: doc.data().car.brand,
+                               model: doc.data().car.model,
+                               plates: doc.data().car.plates,
+                           },
+                           token: doc.data().token,
+                           total: doc.data().total,
+                           services: []
+                       })
+                    });
+                })
         }
     }
 </script>

@@ -12,12 +12,14 @@ import '@/assets/scss/styles.scss';
 // @ts-ignore
 import VueFirestore from 'vue-firestore'
 import Firebase from 'firebase'
-import firebase from "firebase";
+// import firebase from "firebase";
 import {firestoreConfig} from "@/api-keys";
 require('firebase/firestore');
 Vue.use(VueFirestore);
 var firebaseApp = Firebase.initializeApp(firestoreConfig);
+
 export const firestore = firebaseApp.firestore();
+
 
 // Vuex setup
 import { store } from './store/store';
@@ -26,6 +28,7 @@ import { store } from './store/store';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCrown,faWrench } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import firebase from 'firebase';
 
 library.add(faCrown,faWrench)
 
@@ -36,6 +39,7 @@ Vue.config.productionTip = false;
 
 let app = null;
 
+// @ts-ignore
 firebase.auth().onAuthStateChanged(()=>{
   if (!app) {
     app = new Vue({
@@ -45,5 +49,3 @@ firebase.auth().onAuthStateChanged(()=>{
     }).$mount('#app')
   }
 })
-
-
