@@ -279,10 +279,6 @@
                     'price': this.servicePrice
                 });
                 location.reload();
-            },
-            getNumberOfTransactions(){
-                const ref = firebase.firestore().collection('Services');
-
             }
         },
         mixins:[firestoreRequests],
