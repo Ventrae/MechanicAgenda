@@ -42,11 +42,11 @@
 
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
-                            <label for="services" @click="getAvailableServices()">Services</label>
+                            <label for="services">Services</label>
                             <select multiple v-model="form.services"
-                                    class="form-control" name="services" id="services">
-                                <option v-for="service in availableServices" v-bind:value="service.id">
-                                    {{service.data().description}}
+                                    class="form-control" id="services">
+                                <option v-for="service in availableServices" :value="service">
+                                    {{service.description}}
                                 </option>
                             </select>
                             <div>
@@ -125,7 +125,8 @@
                 firestore.collection('Services').get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         // console.log(`${doc.id} => ${doc.data().description}`);
-                        this.availableServices.push(doc)
+                        this.availableServices.push(
+                            { description: doc.data().description, price: doc.data().price });
                     });
                 });
             },
@@ -173,6 +174,9 @@
             goBack() {
                 this.$emit('back', 'first')
             }
+        },
+        mounted() {
+            this.getAvailableServices();
         }
     }
 </script>
