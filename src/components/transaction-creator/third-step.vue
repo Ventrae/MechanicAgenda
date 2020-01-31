@@ -4,28 +4,28 @@
             <md-card class="md-layout-item">
 
                 <md-card-header>
-                    <div class="md-title"><h2>Summary</h2></div>
+                    <div class="md-title"><h2>Podsumowanie</h2></div>
                 </md-card-header>
 
                 <md-card-content>
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('transactionName')">
-                                <label for="transName">Transaction name</label>
+                                <label for="transName">Nazwa zlecenia</label>
                                 <md-input name="transName" id="transName" v-model="form.transactionName"
                                           :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.transactionName.required">Transaction name is required</span>
-                                <span class="md-error" v-else-if="!$v.form.transactionName.minLength">Invalid transaction name</span>
+                                <span class="md-error" v-if="!$v.form.transactionName.required">Nazwa zlecenia jest wymagana</span>
+                                <span class="md-error" v-else-if="!$v.form.transactionName.minLength">Nieprawidłowa nazwa</span>
                             </md-field>
                         </div>
 
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('transactionDate')">
-                                <label for="transDate">Transaction date</label>
+                                <label for="transDate">Data przyjęcia zlecenia</label>
                                 <md-input id="transDate" name="transDate"
                                           v-model="form.transactionDate" :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.transactionDate.required">Date of admission is required</span>
-                                <!--<span class="md-error" v-else-if="!$v.form.transactionDate.">Invalid date</span>-->
+                                <span class="md-error"
+                                      v-if="!$v.form.transactionDate.required">Data jest wymagana</span>
                             </md-field>
                         </div>
                     </div>
@@ -33,44 +33,39 @@
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('transactionComment')">
-                                <label for="transComment">Additional comment</label>
+                                <label for="transComment">Dodatkowy komentarz</label>
                                 <md-input name="transComment" id="transComment" v-model="form.transactionComment"
                                           :disabled="sending"/>
                                 <span class="md-error"
-                                      v-if="!$v.form.transactionComment.minLength">Invalid comment</span>
+                                      v-if="!$v.form.transactionComment.minLength">Nieprawidłowy komentarz</span>
                             </md-field>
                         </div>
                     </div>
 
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
-                            <md-field :class="getValidationClass('transactionTotalPrice')">
-                                <label for="transTotalPrice">Total price</label>
-                                <md-input type="number" id="transTotalPrice" name="transTotalPrice"
-                                          v-model="form.transactionTotalPrice" :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.transactionTotalPrice.required">Total price is required</span>
+                            <md-field>
+                                <label>Koszt</label>
+                                <md-input id="transTotalPrice" name="transTotalPrice"
+                                          v-model="totalPrice" readonly/>
+                                pln
                             </md-field>
                         </div>
 
                         <div class="md-layout-item">
-                            <md-field :class="getValidationClass('transactionToken')">
-                                <label for="transToken">Transaction token</label>
-                                <md-input name="transToken" id="transToken" v-model="form.transactionToken"
-                                          :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.transactionToken.required">Transaction token is required</span>
-                                <span class="md-error"
-                                      v-else-if="!$v.form.transactionToken.minLength">Invalid token</span>
+                            <md-field>
+                                <label>Token zlecenia</label>
+                                <md-input name="transToken" id="transToken" v-model="token" readonly/>
                             </md-field>
                         </div>
                     </div>
                 </md-card-content>
 
-                <md-snackbar :md-active.sync="transactionSaved">Transaction {{ enteredTransaction }} was saved with
-                    success!
+                <md-snackbar :md-active.sync="transactionSaved">Dodano {{ enteredTransaction }}
                 </md-snackbar>
                 <md-progress-bar md-mode="indeterminate" class="bg-warning" v-if="sending"/>
 
-                <md-card-actions>
+                <md-card-actions style="display: flex; align-items: center; justify-content: space-evenly">
                     <md-button class="md-icon-button" @click="goBack()">
                         <md-icon>arrow_back_ios</md-icon>
                     </md-button>
@@ -83,7 +78,7 @@
         </form>
     </div>
 </template>
-<!--Transaction: date, Fname, Fcomment, token, Ftotal, user-->
+
 <script>
     import {validationMixin} from 'vuelidate'
     import {
@@ -100,8 +95,6 @@
                 transactionName: null,
                 transactionComment: null,
                 transactionDate: null,
-                transactionTotalPrice: null,
-                transactionToken: null
             },
             transactionSaved: false,
             sending: false,
@@ -118,17 +111,35 @@
                 },
                 transactionDate: {
                     required
-                },
-                transactionTotalPrice: {
-                    required
-                },
-                transactionToken: {
-                    required,
-                    minLength: minLength(3)
                 }
             }
         },
+        computed: {
+            token() {
+                return this.generateToken();
+            }
+        },
+        props: {
+            totalPrice: {
+                type: Number,
+                required: true
+            }
+        },
         methods: {
+            generateToken() {
+                let token = "";
+                let chars = "ABCDEEFGHIJKLMNOPRSTUWXYZ";
+                let digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+                for (let i = 0; i < 4; i++) {
+                    token += (chars.charAt(Math.floor(Math.random() * chars.length)))
+                }
+                for (let i = 0; i < 4; i++) {
+                    token += (digits[Math.floor(Math.random() * digits.length)])
+                }
+                console.log(token);
+                return token;
+            },
             getValidationClass(fieldName) {
                 const field = this.$v.form[fieldName]
 
@@ -143,8 +154,6 @@
                 this.form.transactionName = null
                 this.form.transactionComment = null
                 this.form.transactionDate = null
-                this.form.transactionTotalPrice = null
-                this.form.transactionToken = null
             },
             confirmTransaction() {
                 this.sending = true
@@ -154,14 +163,14 @@
                         'name': this.form.transactionName,
                         'comment': this.form.transactionComment,
                         'date': this.form.transactionDate,
-                        'total': this.form.transactionTotalPrice,
-                        'token': this.form.transactionToken
+                        'total': this.totalPrice,
+                        'token': this.token
                     }
                     this.transactionSaved = true
                     this.$emit('summary', this.enteredTransaction)
                     this.sending = false
                     this.clearForm()
-                }, 1000)
+                }, 800)
             },
             validateTransaction() {
                 this.$v.$touch()
@@ -173,20 +182,20 @@
             goBack() {
                 this.$emit('back', 'second')
             }
-        }
+        },
     }
 </script>
 
 <style scoped>
     .md-card {
         border: solid 2px;
-        border-color: indianred;
+        border-color: firebrick;
         border-radius: 10px;
     }
 
     .md-card-header {
         color: floralwhite;
-        background-color: indianred;
+        background-color: firebrick;
     }
 
     label {

@@ -13,6 +13,7 @@
         />
 
         <md-button class="md-fab md-fab-bottom-right btn-red md-fixed" @click="showCreator=!showCreator">
+
             <!--fab to open creator-->
             <md-icon>add</md-icon>
         </md-button>
