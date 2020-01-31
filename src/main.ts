@@ -30,9 +30,9 @@ import { faCrown,faWrench } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import firebase from 'firebase';
 
-library.add(faCrown,faWrench)
+library.add(faCrown,faWrench);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 // Vue mounting
 Vue.config.productionTip = false;
@@ -48,4 +48,4 @@ firebase.auth().onAuthStateChanged(()=>{
       render: h => h(App)
     }).$mount('#app')
   }
-})
+});
