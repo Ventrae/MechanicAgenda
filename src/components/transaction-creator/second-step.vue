@@ -4,68 +4,69 @@
             <md-card class="md-layout-item">
 
                 <md-card-header>
-                    <div class="md-title"><h2>Car & Services</h2></div>
+                    <div class="md-title"><h2>Dane samochodu i usługi</h2></div>
                 </md-card-header>
 
                 <md-card-content>
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('carBrand')">
-                                <label for="carBrand">Car brand</label>
+                                <label for="carBrand">Marka samochodu</label>
                                 <md-input name="carBrand" id="carBrand" v-model="form.carBrand" :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.carBrand.required">Car brand is required</span>
-                                <span class="md-error" v-else-if="!$v.form.carBrand.minLength">Invalid brand name</span>
+                                <span class="md-error"
+                                      v-if="!$v.form.carBrand.required">Marka samochodu jest wymagana</span>
+                                <span class="md-error" v-else-if="!$v.form.carBrand.minLength">Nieprawidłowa marka samochodu</span>
                             </md-field>
                         </div>
 
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('carModel')">
-                                <label for="carModel">Car model</label>
+                                <label for="carModel">Model samochodu</label>
                                 <md-input name="carModel" id="carModel" v-model="form.carModel" :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.carModel.required">Car model is required</span>
-                                <span class="md-error" v-else-if="!$v.form.carModel.minLength">Invalid model name</span>
+                                <span class="md-error"
+                                      v-if="!$v.form.carModel.required">Model samochodu jest wymagany</span>
+                                <span class="md-error" v-else-if="!$v.form.carModel.minLength">Nieprawidłowy model samochodu</span>
                             </md-field>
                         </div>
 
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('carPlates')">
-                                <label for="carPlates">Car plates</label>
+                                <label for="carPlates">Tablice rejestracyjne</label>
                                 <md-input id="carPlates" name="carPlates" v-model="form.carPlates" :disabled="sending"/>
-                                <span class="md-error" v-if="!$v.form.carPlates.required">Car plates are required</span>
+                                <span class="md-error" v-if="!$v.form.carPlates.required">Tablice są wymagane</span>
                                 <span class="md-error"
-                                      v-else-if="!$v.form.carPlates.minLength">Invalid car plates</span>
+                                      v-else-if="!$v.form.carPlates.minLength">Nieprawidłowe numery</span>
                                 <span class="md-error"
-                                      v-else-if="!$v.form.carPlates.maxLength">Invalid car plates</span>
+                                      v-else-if="!$v.form.carPlates.maxLength">Nieprawidłowe numery</span>
                             </md-field>
                         </div>
                     </div>
 
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
-                            <label for="services" @click="getAvailableServices()">Services</label>
+                            <label for="services">Usługi</label>
                             <select multiple v-model="form.services"
-                                    class="form-control" name="services" id="services">
-                                <option v-for="service in availableServices" v-bind:value="service.id">
-                                    {{service.data().description}}
+                                    class="form-control" id="services">
+                                <option v-for="service in availableServices" :value="service.id">
+                                    {{service.description}} - {{service.price}}
                                 </option>
                             </select>
                             <div>
                                 <br>
-                                Selected:
+                                Wybrane:
                                 {{form.services}}
-<!--                                <md-chips v-model="form.services"></md-chips>-->
+                                <!--                                <md-chips v-model="form.services"></md-chips>-->
                             </div>
-
                         </div>
                     </div>
                 </md-card-content>
 
-                <md-snackbar :md-active.sync="carServicesSaved">Car services {{ enteredCarServices }} was saved with
-                    success!
+                <md-snackbar :md-active.sync="carServicesSaved">Samochód i usługi: {{ enteredCarServices }} zostały
+                    dodane!
                 </md-snackbar>
                 <md-progress-bar md-mode="indeterminate" class="bg-warning" v-if="sending"/>
 
-                <md-card-actions>
+                <md-card-actions style="display: flex; align-items: center; justify-content: space-evenly">
                     <md-button class="md-icon-button" @click="goBack()">
                         <md-icon>arrow_back_ios</md-icon>
                     </md-button>
@@ -98,6 +99,7 @@
                 carPlates: null,
                 services: []
             },
+            servicesTotalPrice: 0,
             availableServices: [],
             carServicesSaved: false,
             sending: false,
@@ -121,11 +123,22 @@
             }
         },
         methods: {
+            computeTotalPrice() {
+                this.form.services.forEach(service => {
+                     this.availableServices.filter(avservice => {
+                        if(avservice.id === service){
+                            this.servicesTotalPrice += parseInt(avservice.price)
+                        }
+                    });
+                    console.log(this.servicesTotalPrice);
+                })
+            },
             getAvailableServices() {
                 firestore.collection('Services').get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         // console.log(`${doc.id} => ${doc.data().description}`);
-                        this.availableServices.push(doc)
+                        this.availableServices.push(
+                            {id: doc.id, description: doc.data().description, price: doc.data().price});
                     });
                 });
             },
@@ -147,6 +160,7 @@
             },
             confirmCarServices() {
                 this.sending = true
+                this.computeTotalPrice()
 
                 window.setTimeout(() => {
                     this.enteredCarServices = {
@@ -155,7 +169,8 @@
                             'model': this.form.carModel,
                             'plates': this.form.carPlates
                         },
-                        'services': this.form.services
+                        'services': this.form.services,
+                        'total': this.servicesTotalPrice
                     }
                     this.carServicesSaved = true
                     this.$emit('second', this.enteredCarServices)
@@ -173,6 +188,9 @@
             goBack() {
                 this.$emit('back', 'first')
             }
+        },
+        mounted() {
+            this.getAvailableServices();
         }
     }
 </script>
@@ -180,13 +198,13 @@
 <style scoped>
     .md-card {
         border: solid 2px;
-        border-color: indianred;
+        border-color: firebrick;
         border-radius: 10px;
     }
 
     .md-card-header {
         color: floralwhite;
-        background-color: indianred;
+        background-color: firebrick;
     }
 
     label {

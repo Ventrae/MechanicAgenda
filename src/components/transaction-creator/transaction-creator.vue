@@ -12,7 +12,7 @@
             </md-step>
 
             <md-step id="third" md-label="Summary" :md-done.sync="third">
-                <third-step @summary="addSummary($event), setDone('third')" @back="goBack($event)"></third-step>
+                <third-step :total-price="transaction.total" @summary="addSummary($event), setDone('third')" @back="goBack($event)"></third-step>
             </md-step>
 
         </md-steppers>
@@ -43,7 +43,8 @@
                 comment: null,
                 date: null,
                 token: null,
-                total: null
+                total: 0,
+                user: null
             }
         }),
         methods: {
@@ -69,13 +70,13 @@
             addCarServices($event) {
                 this.transaction.car = $event.car
                 this.transaction.services = $event.services
+                this.transaction.total = $event.total
                 console.log('Car Services added', this.transaction)
             },
             addSummary($event) {
                 this.transaction.name = $event.name
                 this.transaction.comment = $event.comment
                 this.transaction.date = $event.date
-                this.transaction.total = $event.total
                 this.transaction.token = $event.token
                 console.log('Summary added', this.transaction)
             },

@@ -27,7 +27,7 @@ const routes = [
       default: Agenda
     },
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
@@ -38,7 +38,7 @@ const routes = [
       default: CreateTransaction
     },
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {

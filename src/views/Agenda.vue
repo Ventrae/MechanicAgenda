@@ -12,7 +12,7 @@
                 :transactions="filterTransactions(transactions, user)"
         />
 
-        <md-button class="md-fab md-fab-bottom-right btn-red" @click="showCreator=!showCreator">
+        <md-button class="md-fab md-fixed md-fab-bottom-right btn-red" @click="showCreator=!showCreator">
             <!--fab to open creator-->
             <md-icon>add</md-icon>
         </md-button>

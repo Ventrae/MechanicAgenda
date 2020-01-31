@@ -4,26 +4,26 @@
             <md-card class="md-layout-item">
 
                 <md-card-header>
-                    <div class="md-title"><h2>Client</h2></div>
+                    <div class="md-title"><h2>Dane klienta</h2></div>
                 </md-card-header>
 
                 <md-card-content>
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('clientName')">
-                                <label for="firstName">First name</label>
+                                <label for="firstName">Imię</label>
                                 <md-input name="firstName" id="firstName" v-model="form.clientName" :disabled="sending" />
-                                <span class="md-error" v-if="!$v.form.clientName.required">First name is required</span>
-                                <span class="md-error" v-else-if="!$v.form.clientName.minlength">Invalid first name</span>
+                                <span class="md-error" v-if="!$v.form.clientName.required">Imię jest wymagane</span>
+                                <span class="md-error" v-else-if="!$v.form.clientName.minlength">Nieprawidłowe imię</span>
                             </md-field>
                         </div>
 
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('clientSurname')">
-                                <label for="lastName">Last name</label>
+                                <label for="lastName">Nazwisko</label>
                                 <md-input name="lastName" id="lastName" v-model="form.clientSurname" :disabled="sending" />
-                                <span class="md-error" v-if="!$v.form.clientSurname.required">Last name is required</span>
-                                <span class="md-error" v-else-if="!$v.form.clientSurname.minlength">Invalid last name</span>
+                                <span class="md-error" v-if="!$v.form.clientSurname.required">Nazwisko jest wymagane</span>
+                                <span class="md-error" v-else-if="!$v.form.clientSurname.minlength">Nieprawidłowie nazwisko</span>
                             </md-field>
                         </div>
                     </div>
@@ -31,10 +31,10 @@
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
                             <md-field :class="getValidationClass('clientPhone')">
-                                <label for="phone">Phone</label>
+                                <label for="phone">Numer telefonu</label>
                                 <md-input type="number" id="phone" name="phone" v-model="form.clientPhone" :disabled="sending" />
-                                <span class="md-error" v-if="!$v.form.clientPhone.required">Phone is required</span>
-                                <span class="md-error" v-else-if="!$v.form.clientPhone.maxlength">Invalid phone</span>
+                                <span class="md-error" v-if="!$v.form.clientPhone.required">Telefon jest wymagany</span>
+                                <span class="md-error" v-else-if="!$v.form.clientPhone.maxlength">Nieprawidłowy numer telefonu</span>
                             </md-field>
                         </div>
 
@@ -42,18 +42,19 @@
                             <md-field :class="getValidationClass('clientEmail')">
                                 <label for="email">Email</label>
                                 <md-input type="email" name="email" id="email" v-model="form.clientEmail" :disabled="sending" />
-                                <span class="md-error" v-if="!$v.form.clientEmail.required">Email is required</span>
-                                <span class="md-error" v-else-if="!$v.form.clientEmail.clientEmail">Invalid email</span>
+                                <span class="md-error" v-if="!$v.form.clientEmail.required">Email jest wymagany</span>
+                                <span class="md-error" v-else-if="!$v.form.clientEmail.clientEmail">Nieprawidłowy email</span>
                             </md-field>
                         </div>
                     </div>
                 </md-card-content>
 
-                <md-snackbar :md-active.sync="clientSaved">Client {{ enteredClient }} was saved with success!</md-snackbar>
+                <md-snackbar :md-active.sync="clientSaved">Klient {{ enteredClient }} został dodany!</md-snackbar>
                 <md-progress-bar md-mode="indeterminate" class="bg-warning" v-if="sending" />
 
-                <md-card-actions>
-                    <md-button type="submit" class="md-icon-button" :disabled="sending"><md-icon>arrow_forward_ios</md-icon></md-button>
+                <md-card-actions style="display: flex; align-items: center; justify-content: space-evenly">
+                    <md-button type="submit" class="md-icon-button" :disabled="sending">
+                        <md-icon>arrow_forward_ios</md-icon></md-button>
                 </md-card-actions>
 
             </md-card>
@@ -152,13 +153,13 @@
 <style scoped>
     .md-card {
         border: solid 2px;
-        border-color: indianred;
+        border-color: firebrick;
         border-radius: 10px;
     }
 
     .md-card-header {
         color: floralwhite;
-        background-color: indianred;
+        background-color: firebrick;
     }
 
     label {
