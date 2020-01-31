@@ -44,7 +44,7 @@
 
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
-                            <label for="services">Dostępne usługi:</label>
+                        <label for="services">Dostępne usługi:</label>
                             <select multiple v-model="form.services"
                                     class="form-control" id="services">
                                 <option v-for="service in availableServices" :value="service.id">

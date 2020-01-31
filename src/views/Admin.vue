@@ -1,37 +1,42 @@
 <template>
     <div>
         <div class="container">
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
-                Dodaj Pracownika
-            </button>
 
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#serviceModal">
-                Dodaj Serwis
-            </button>
+            <div class="btn-group-vertical my-5">
+                <button type="button" class="btn btn-danger text-left my-1" data-toggle="modal" data-target="#exampleModal">
+                    Dodaj Pracownika
+                </button>
+
+                <button type="button" class="btn btn-danger text-left" data-toggle="modal" data-target="#serviceModal">
+                    Dodaj Serwis
+                </button>
+            </div>
+
 
             <div class="row">
 
-                <div class="table-responsive col-md-6">
+                <div class="table-responsive col-md-7">
                     <table class="table ">
                         <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
+
                             <th scope="col">Imie</th>
                             <th scope="col">Nazwisko</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Czy jest włascicielem</th>
-                            <th scope="col">Usun</th>
+                            <th scope="col">Własciciel?</th>
+                            <th  scope="col">Usun</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr v-for="(user, index) in users" >
                             <th scope="row">{{index + 1}}</th>
                             <td>{{user.name}}</td>
-                            <td>{{user.nazwisko}}</td>
+                            <td>{{user.surname}}</td>
                             <td>{{user.email}}</td>
                             <td v-if="user.isOwner==false" >Nie</td>
                             <td v-else>Tak</td>
-                            <th @click="deleteUser(user.id)" scope="col">&times;</th>
+                            <th class="delete__pointer" @click="deleteUser(user.id)" scope="col">&times;</th>
 
                         </tr>
                         </tbody>
@@ -39,7 +44,7 @@
                 </div>
 
 
-                <div class="table-responsive col-md-6">
+                <div class="table-responsive col-md-5">
                     <table class="table ">
                         <thead class="thead-light">
                         <tr>
@@ -54,7 +59,7 @@
                             <th scope="row">{{index + 1}}</th>
                             <td>{{service.description}}</td>
                             <td>{{service.price}}</td>
-                            <td @click="deleteService(service.id)">&times;</td>
+                            <td class="delete__pointer" @click="deleteService(service.id)">&times;</td>
                         </tr>
                         </tbody>
                     </table>
@@ -93,7 +98,7 @@
                                                                    class="form-control input-sm" placeholder="Nazwisko">
                                                         </div>
                                                     </div>
-                                                    {{imie}}
+
                                                 </div>
                                                 <div class="form-group">
                                                     <input v-model="email" type="email" id="email" class="form-control input-sm"
@@ -289,6 +294,10 @@
     }
     .centered-form{
         margin-top: 10px;
+    }
+
+    .delete__pointer{
+        cursor: pointer;
     }
 
 

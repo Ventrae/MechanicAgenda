@@ -10,15 +10,13 @@
                            placeholder="Hasło użytkownika"/>
                     <button class="btn btn-red btn-block" type="submit">Zaloguj</button>
                 </div>
-                <!--              <div>-->
-                <!--                <button type="button" @click="logOut" class="btn-block btn-primary">Log Out!</button>-->
-                <!--              </div>-->
             </div>
         </form>
     </div>
 </template>
 <script>
     import firebase from 'firebase';
+    import {firestore} from "@/main";
 
     export default {
         name: "Login",
@@ -41,9 +39,16 @@
                         this.uid = user.uid;
                         console.log(this.uid);
                         localStorage.uid = this.uid;
-                        //this.$store.state.currentUser=this.getOneUser(this.uid);
-                        console.log(this.$store.state.currentUser);
-                        this.$router.push({name: 'agenda'});
+                        firestore.collection('Users').doc(this.uid).get().then(response => {
+                            console.log(response.data());
+                            let x = response.data();
+                            this.$store.state.currentUser.name = x.name;
+                            this.$store.state.currentUser.surname = x.surname;
+                            this.$store.state.currentUser.email = x.email;
+                            this.$store.state.currentUser.isOwner = x.isOwner;
+                            console.log(this.$store.state.currentUser);
+                            this.$router.push({name: 'agenda'});
+                        });
                     },
                     (err) => {
                         alert('Opps something went wrong: ' + err.message)

@@ -30,7 +30,7 @@ export const firestoreRequests = {
                         let services = [];
                         let car = new Car("","","","");
                         // @ts-ignore
-                        let user = new User("","","",false,[]);
+                        let user = new User("","","","","", false,[]);
 
                         let client = async () => {
                             return await firestore.collection('Clients')
@@ -67,7 +67,7 @@ export const firestoreRequests = {
                             transaction.data().date,
                             transaction.data().comment,
                             services,
-                            new Client(client().id, client().name, client().surname, client().email, client().phone),
+                            new Client("client().id", "client().name", "client().surname", "client().email", "client().phone"),
                             car,
                             transaction.data().token,
                             new User('mockid', 'mockname', 'mockpass', 'email', 'password', false, []),

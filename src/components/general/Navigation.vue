@@ -27,6 +27,7 @@
                         tag="li"
                         class="nav-item"
                         active-class="active"
+                        v-if="$store.state.currentUser.isOwner"
                         exact>
                     <a class="nav-link">Admin</a>
                 </router-link>
