@@ -4,7 +4,7 @@
             <md-card class="md-layout-item">
 
                 <md-card-header>
-                    <div class="md-title"><h2>Dane samochodu i usługi</h2></div>
+                    <div class="md-title"><h2>Usługi do wykonania</h2></div>
                 </md-card-header>
 
                 <md-card-content>
@@ -44,7 +44,7 @@
 
                     <div class="md-layout md-gutter">
                         <div class="md-layout-item">
-                            <label for="services">Usługi</label>
+                            <label for="services">Dostępne usługi:</label>
                             <select multiple v-model="form.services"
                                     class="form-control" id="services">
                                 <option v-for="service in availableServices" :value="service.id">
@@ -61,8 +61,7 @@
                     </div>
                 </md-card-content>
 
-                <md-snackbar :md-active.sync="carServicesSaved">Samochód i usługi: {{ enteredCarServices }} zostały
-                    dodane!
+                <md-snackbar :md-active.sync="carServicesSaved">Dodano {{ enteredCarServices }}
                 </md-snackbar>
                 <md-progress-bar md-mode="indeterminate" class="bg-warning" v-if="sending"/>
 
@@ -136,7 +135,6 @@
             getAvailableServices() {
                 firestore.collection('Services').get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
-                        // console.log(`${doc.id} => ${doc.data().description}`);
                         this.availableServices.push(
                             {id: doc.id, description: doc.data().description, price: doc.data().price});
                     });
@@ -156,7 +154,7 @@
                 this.form.carBrand = null
                 this.form.carModel = null
                 this.form.carPlates = null
-                this.services = []
+                this.form.services = []
             },
             confirmCarServices() {
                 this.sending = true
@@ -176,7 +174,7 @@
                     this.$emit('second', this.enteredCarServices)
                     this.sending = false
                     this.clearForm()
-                }, 1000)
+                }, 800)
             },
             validateCarServices() {
                 this.$v.$touch()

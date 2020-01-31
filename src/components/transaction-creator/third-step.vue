@@ -61,8 +61,7 @@
                     </div>
                 </md-card-content>
 
-                <md-snackbar :md-active.sync="transactionSaved">Transaction {{ enteredTransaction }} was saved with
-                    success!
+                <md-snackbar :md-active.sync="transactionSaved">Dodano {{ enteredTransaction }}
                 </md-snackbar>
                 <md-progress-bar md-mode="indeterminate" class="bg-warning" v-if="sending"/>
 
@@ -171,7 +170,7 @@
                     this.$emit('summary', this.enteredTransaction)
                     this.sending = false
                     this.clearForm()
-                }, 1000)
+                }, 800)
             },
             validateTransaction() {
                 this.$v.$touch()

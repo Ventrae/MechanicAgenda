@@ -3,15 +3,15 @@
 
         <md-steppers autofocus md-alternative md-dynamic-height :md-active-step.sync="active" md-linear>
 
-            <md-step id="first" md-label="Client Details" :md-done.sync="first">
+            <md-step id="first" md-label="Klient" :md-done.sync="first">
                 <first-step @first="addClient($event), setDone('first', 'second')"></first-step>
             </md-step>
 
-            <md-step id="second" md-label="Car Services Details" :md-done.sync="second">
+            <md-step id="second" md-label="Usługi" :md-done.sync="second">
                 <second-step @second="addCarServices($event), setDone('second', 'third')" @back="goBack($event)"></second-step>
             </md-step>
 
-            <md-step id="third" md-label="Summary" :md-done.sync="third">
+            <md-step id="third" md-label="Podsumowanie" :md-done.sync="third">
                 <third-step :total-price="transaction.total" @summary="addSummary($event), setDone('third')" @back="goBack($event)"></third-step>
             </md-step>
 

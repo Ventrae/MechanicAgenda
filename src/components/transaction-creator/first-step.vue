@@ -33,7 +33,7 @@
                             <md-field :class="getValidationClass('clientPhone')">
                                 <label for="phone">Numer telefonu</label>
                                 <md-input type="number" id="phone" name="phone" v-model="form.clientPhone" :disabled="sending" />
-                                <span class="md-error" v-if="!$v.form.clientPhone.required">Telefon jest wymagany</span>
+                                <span class="md-error" v-if="!$v.form.clientPhone.required">Numer telefonu jest wymagany</span>
                                 <span class="md-error" v-else-if="!$v.form.clientPhone.maxlength">Nieprawidłowy numer telefonu</span>
                             </md-field>
                         </div>
@@ -49,7 +49,7 @@
                     </div>
                 </md-card-content>
 
-                <md-snackbar :md-active.sync="clientSaved">Klient {{ enteredClient }} został dodany!</md-snackbar>
+                <md-snackbar :md-active.sync="clientSaved">Dodano {{ enteredClient }}</md-snackbar>
                 <md-progress-bar md-mode="indeterminate" class="bg-warning" v-if="sending" />
 
                 <md-card-actions style="display: flex; align-items: center; justify-content: space-evenly">
@@ -137,7 +137,7 @@
                     this.$emit('first', this.enteredClient)
                     this.sending = false
                     this.clearForm()
-                }, 1000)
+                }, 800)
             },
             validateClient () {
                 this.$v.$touch()

@@ -4,7 +4,7 @@
 
             <div class="modal-content text-center">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">New Transaction</h5>
+                    <h5 class="modal-title text-center">Nowe zlecenie</h5>
                     <md-button class="md-icon-button" data-dismiss="modal" @click="close()">
                         <md-icon>close</md-icon>
                     </md-button>
@@ -12,7 +12,7 @@
                 <div class="modal-body text-center">
                     <transaction-creator v-if="creatingState" @done="onDone()"></transaction-creator>
                     <md-card-content v-if="!creatingState">
-                        <h1>Transaction added!</h1>
+                        <h1>Dodano zlecenie!</h1>
                     </md-card-content>
                 </div>
             </div>
